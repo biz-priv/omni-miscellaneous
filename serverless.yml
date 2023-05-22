@@ -42,7 +42,7 @@ plugins:
   - serverless-offline
 
 layers:
-  commonmiscellaneousLayer:
+  OmnimiscellaneousLayer:
     path: lib
     name: ${self:service}-layer-${self:provider.stage}
     description: Omni miscellaneous lambda layer for all node modules - ${self:provider.stage}
