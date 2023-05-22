@@ -1,0 +1,56 @@
+service: omni-miscellaneous
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 30
+  stackTags:
+    Application: omni miscellaneous
+    CreateBy: BizCloudExperts
+    Environment: ${self:provider.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+      Resource: "*"
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:*"
+      Resource: "*"
+    - Effect: Allow
+      Action:
+        - "s3:GetObject"
+        - "s3:ListBucket"
+        - "s3:PutObject"
+      Resource: "*"
+      
+package:
+  individually: true
+  exclude:
+    - "node_modules/**"
+    - Jenkinsfile
+    - "config/**"
+    - "src/**"
+    - "*.*"
+
+layers:
+  commonmiscellaneousLibs:
+    path: lib
+    compatibleRuntimes:
+      - nodejs14.x
+    name: omni-miscellaneous-layer-${self:provider.stage}
+
+functions:
+  timeZoneOffset: ${file(config/functions/timeZoneOffset.yml):function}
+
+resources:
+  Resources:
+    OmniTimeZoneOffsetTable: ${file(config/dynamoDb/timeZoneOffsetTable.yml):OmniTimeZoneOffsetTable}  
+
+plugins:
+  - serverless-offline

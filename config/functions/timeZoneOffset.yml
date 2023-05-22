@@ -1,0 +1,17 @@
+function:
+  name:  omni-timezone-offset-${self:provider.stage}
+  handler: src/TimeZone/index.handler
+  timeout: 120
+  layers:
+    - { Ref: commonmiscellaneousLibsLambdaLayer }
+  environment:
+    TIMEZONE_OFFSET_TABLE: ${ssm:/omni-miscellaneous/${self:provider.stage}/timezone-offset/dynamoDB/table/name}
+  package:
+    include:
+      - src/TimeZone/**
+
+  events:
+    - s3:
+        bucket: ${ssm:/omni-miscellaneous/${self:provider.stage}/timezone-offset/bucket/name}
+        event: s3:ObjectCreated:*
+        existing: true

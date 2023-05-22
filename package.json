@@ -1,0 +1,23 @@
+{
+  "name": "omni-miscellaneous",
+  "version": "1.0.0",
+  "description": "Repo for storing functions that are one time requests",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1048.0",
+    "csv-parser": "^3.0.0",
+    "stream": "^0.0.2"
+  },
+  "devDependencies": {
+    "serverless": "2.72.3",
+    "serverless-offline": "^8.8.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

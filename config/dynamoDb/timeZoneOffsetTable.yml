@@ -1,0 +1,11 @@
+OmniTimeZoneOffsetTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: omni-timezone-offset
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: "timezone"
+        AttributeType: "S"
+    KeySchema:
+      - AttributeName: "timezone"
+        KeyType: "HASH"
