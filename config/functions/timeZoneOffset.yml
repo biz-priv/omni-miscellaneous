@@ -3,15 +3,14 @@ function:
   handler: src/TimeZone/index.handler
   timeout: 120
   layers:
-    - { Ref: commonmiscellaneousLayerLambdaLayer }
-  environment:
-    TIMEZONE_OFFSET_TABLE: ${ssm:/omni-miscellaneous/${self:provider.stage}/timezone-offset/dynamoDB/table/name}
+    - { Ref: OmnimiscellaneousLayerLambdaLayer }
   package:
     include:
       - src/TimeZone/**
-
   events:
     - s3:
         bucket: ${ssm:/omni-miscellaneous/${self:provider.stage}/timezone-offset/bucket/name}
         event: s3:ObjectCreated:*
         existing: true
+  environment:
+    TIMEZONE_OFFSET_TABLE: ${ssm:/omni-miscellaneous/${self:provider.stage}/timezone-offset/dynamoDB/table/name}        
