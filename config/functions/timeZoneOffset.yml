@@ -3,7 +3,7 @@ function:
   handler: src/TimeZone/index.handler
   timeout: 120
   layers:
-    - { Ref: commonmiscellaneousLibsLambdaLayer }
+    - { Ref: commonmiscellaneousLayerLambdaLayer }
   environment:
     TIMEZONE_OFFSET_TABLE: ${ssm:/omni-miscellaneous/${self:provider.stage}/timezone-offset/dynamoDB/table/name}
   package:

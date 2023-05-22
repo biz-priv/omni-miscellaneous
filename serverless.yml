@@ -38,12 +38,17 @@ package:
     - "src/**"
     - "*.*"
 
+plugins:
+  - serverless-offline
+
 layers:
-  commonmiscellaneousLibs:
+  commonmiscellaneousLayer:
     path: lib
+    name: ${self:service}-layer-${self:provider.stage}
+    description: Omni miscellaneous lambda layer for all node modules - ${self:provider.stage}
     compatibleRuntimes:
       - nodejs14.x
-    name: omni-miscellaneous-layer-${self:provider.stage}
+    retain: false
 
 functions:
   timeZoneOffset: ${file(config/functions/timeZoneOffset.yml):function}
@@ -51,6 +56,3 @@ functions:
 resources:
   Resources:
     OmniTimeZoneOffsetTable: ${file(config/dynamoDb/timeZoneOffsetTable.yml):OmniTimeZoneOffsetTable}  
-
-plugins:
-  - serverless-offline
