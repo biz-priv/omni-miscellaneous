@@ -24,7 +24,6 @@ module.exports.handler = async (event) => {
             // Insert/update records into the DynamoDB table
             const batchSize = 25;
             for (let i = 0; i < rows.length; i += batchSize) {
-                console.log("length",rows.length)
                 const batchItems = rows.slice(i, i + batchSize);
                 try {
                     const params = {
@@ -34,11 +33,9 @@ module.exports.handler = async (event) => {
                             }))
                         }
                     };
-                    console.log("params:",params);
-                    const result = await dynamoDb.batchWrite(params).promise();
-                    console.log("result:",result);
+                    await dynamoDb.batchWrite(params).promise();
                 } catch (error) {
-                    console.info(error);
+                    console.error(error);
                 }
             }
             console.log("records are inserted successfully");
@@ -48,6 +45,6 @@ module.exports.handler = async (event) => {
         bufferStream.end(csvData);
         bufferStream.pipe(parser);
     } catch (error) {
-        console.info(error);
+        console.error(error);
     }
 };
