@@ -8,8 +8,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1048.0",
-    "csv-parser": "^3.0.0",
-    "stream": "^0.0.2"
+    "csvtojson": "^2.0.10"
   },
   "devDependencies": {
     "serverless": "2.72.3",
