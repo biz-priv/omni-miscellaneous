@@ -35,10 +35,10 @@ module.exports.handler = async (event) => {
                         }
                     };
                     console.log("params:",params);
-                    await dynamoDb.batchWrite(params).promise();
-                    console.log("params:",params);
+                    const result = await dynamoDb.batchWrite(params).promise();
+                    console.log("result:",result);
                 } catch (error) {
-                    console.error(error);
+                    console.info(error);
                 }
             }
             console.log("records are inserted successfully");
@@ -48,6 +48,6 @@ module.exports.handler = async (event) => {
         bufferStream.end(csvData);
         bufferStream.pipe(parser);
     } catch (error) {
-        console.error(error);
+        console.info(error);
     }
 };
