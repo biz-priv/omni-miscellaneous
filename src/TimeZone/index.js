@@ -14,27 +14,25 @@ module.exports.handler = async (event) => {
         const params = { Bucket: bucket, Key: key };
         const data = await s3.getObject(params).promise();
         const csvData = data.Body.toString("utf-8");
-        csv()
-            .fromString(csvData)
-            .then(async (jsonObj) => {
-                console.log(JSON.parse(JSON.stringify(jsonObj, null, 2)));
-                // Split the records into batches of 25
-                const batches = [];
-                while (jsonObj.length > 0) {
-                    batches.push(jsonObj.splice(0, 25));
-                }
-                // Insert each batch of records into the DynamoDB table
-                for (let i = 0; i < batches.length; i++) {
-                    console.log(`Inserting batch ${i + 1} of ${batches.length}`);
-                    await batchWrite(process.env.TIMEZONE_OFFSET_TABLE, batches[i]);
-                }
-            })
-            .catch((err) => {
-                console.error("Error occurred:", err);
-            });
+
+        // Convert the CSV data to JSON
+        const jsonObj = await csv().fromString(csvData);
+
+        // Split the records into batches of 25
+        const batches = [];
+        while (jsonObj.length > 0) {
+            batches.push(jsonObj.splice(0, 25));
+        }
+
+        // Insert each batch of records into the DynamoDB table
+        for (let i = 0; i < batches.length; i++) {
+            console.log(`Inserting batch ${i + 1} of ${batches.length}`);
+            await batchWrite(process.env.TIMEZONE_OFFSET_TABLE, batches[i]);
+        }
+
         console.log("records are inserted successfully");
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 
@@ -52,6 +50,5 @@ async function batchWrite(tableName, items) {
         await dynamoDb.batchWrite(params).promise();
     } catch (e) {
         console.error("Batch Write Error: ", e);
-        throw "BatchWriteError";
     }
 }
