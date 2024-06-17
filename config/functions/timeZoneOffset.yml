@@ -2,6 +2,8 @@ function:
   name:  omni-timezone-offset-${self:provider.stage}
   handler: src/TimeZone/index.handler
   timeout: 120
+  tags:
+    Name: timezone-offset   
   layers:
     - { Ref: OmnimiscellaneousLayerLambdaLayer }
   package:

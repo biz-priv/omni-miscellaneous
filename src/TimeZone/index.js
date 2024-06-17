@@ -1,3 +1,10 @@
+/*
+* File: src\TimeZone\index.js
+* Project: Omni-miscellaneous
+* Author: Bizcloud Experts
+* Date: 2023-05-24
+* Confidential and Proprietary
+*/
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
