@@ -8,7 +8,7 @@ provider:
   memorySize: 512
   timeout: 30
   stackTags:
-    Application: omni miscellaneous
+    Application: Omni miscellaneous
     CreateBy: BizCloudExperts
     Environment: ${self:provider.stage}
   iamRoleStatements:
